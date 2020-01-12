@@ -51,7 +51,7 @@ export default function Todo({ todo, toggleTodo }) {
           checked={todo.completed}
           onChange={handleTodoClick}
         />
-        <TodoName>{todo.name}</TodoName>
+        <TodoName>{todo.title}</TodoName>
       </TodoLabel>
     </TodoWrapper>
   );

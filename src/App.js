@@ -3,12 +3,22 @@ import TodoList from "./TodoList";
 import uuidv4 from "uuid/v4";
 import "normalize.css";
 import styled from "styled-components";
+import axios from 'axios'
 
 const LOCAL_STORAGE_KEY = "todoApp.todos";
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const todoNameRef = useRef();
+  const todoTitleRef = useRef();
+
+   useEffect(() => {
+    async function getTodos() {
+      const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
+      const dataTodos = res.data
+      if(dataTodos) setTodos(dataTodos)
+    }
+    getTodos()
+  }, [])
 
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
@@ -20,13 +30,13 @@ function App() {
   }, [todos]);
 
   function handleAddTodo(e) {
-    const name = todoNameRef.current.value;
+    const Title = todoTitleRef.current.value;
     const id = uuidv4();
-    if (name === "") return;
+    if (Title === "") return;
     setTodos(prevTodo => {
-      return [...prevTodo, { id: id, name: name, completed: false }];
+      return [...prevTodo, { id: id, title: Title, completed: false }];
     });
-    todoNameRef.current.value = "";
+    todoTitleRef.current.value = "";
   }
 
   function handleClearTodos() {
@@ -54,7 +64,7 @@ function App() {
   return (
     <Wrapper>
       <TodoList todos={todos} toggleTodo={handleToggleTodo} />
-      <input ref={todoNameRef} type="text" />
+      <input ref={todoTitleRef} type="text" />
       <button onClick={handleAddTodo}>Add Todo</button>
       <button onClick={handleClearTodos}>Clear Todos</button>
       <div style={{ textAlign: "center" }}>

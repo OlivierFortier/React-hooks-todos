@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import TodoList from "./TodoList";
 import uuidv4 from "uuid/v4";
-import "normalize.css"
+import "normalize.css";
+import styled from "styled-components";
 
 const LOCAL_STORAGE_KEY = "todoApp.todos";
 
@@ -40,14 +41,24 @@ function App() {
     setTodos(newTodos);
   }
 
+  const Wrapper = styled.div`
+    height: 100vh;
+    width: 100vw;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:stretch;
+    background: #55b9f3;
+  `;
+
   return (
-    <>
+    <Wrapper>
       <TodoList todos={todos} toggleTodo={handleToggleTodo} />
       <input ref={todoNameRef} type="text" />
       <button onClick={handleAddTodo}>Add Todo</button>
       <button onClick={handleClearTodos}>Clear Todos</button>
-      <div>{todos.filter(todo => !todo.completed).length} left to do</div>
-    </>
+      <div style={{textAlign: "center"}}>{todos.filter(todo => !todo.completed).length} left to do</div>
+    </Wrapper>
   );
 }
 

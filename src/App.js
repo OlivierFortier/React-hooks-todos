@@ -3,7 +3,7 @@ import TodoList from "./TodoList";
 import uuidv4 from "uuid/v4";
 import "normalize.css";
 import styled from "styled-components";
-import axios from 'axios'
+import axios from "axios";
 
 const LOCAL_STORAGE_KEY = "todoApp.todos";
 
@@ -11,18 +11,21 @@ function App() {
   const [todos, setTodos] = useState([]);
   const todoTitleRef = useRef();
 
-   useEffect(() => {
-    async function getTodos() {
-      const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
-      const dataTodos = res.data
-      if(dataTodos) setTodos(dataTodos)
-    }
-    getTodos()
-  }, [])
-
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     if (storedTodos) setTodos(storedTodos);
+  }, []);
+
+  useEffect(() => {
+    async function getTodos() {
+      const res = await axios.get(
+        "https://jsonplaceholder.typicode.com/todos?_limit=5"
+      );
+      const dataTodos = res.data;
+      if (dataTodos) setTodos(dataTodos);
+    }
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (!storedTodos) getTodos();
   }, []);
 
   useEffect(() => {
@@ -34,8 +37,20 @@ function App() {
     const id = uuidv4();
     if (Title === "") return;
     setTodos(prevTodo => {
-      return [...prevTodo, { id: id, title: Title, completed: false }];
+      return [...prevTodo, { userId: 1 , id: id, title: Title, completed: false }];
     });
+    async function postTodo() {
+      try {
+        const result = await axios.post(
+          "https://jsonplaceholder.typicode.com/todos",
+          { id: id, title: Title, completed: false }
+        );
+        console.log(result);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    postTodo();
     todoTitleRef.current.value = "";
   }
 

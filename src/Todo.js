@@ -33,9 +33,8 @@ export default function Todo({ todo, toggleTodo }) {
     padding: 0;
     border-radius: 50px;
     border-radius: 50px;
-background: linear-gradient(145deg, #5bc6ff, #4da7db);
-box-shadow: 14px 14px 27px #489dcf, 
-            -14px -14px 27px #62d5ff;
+    background: linear-gradient(145deg, #5bc6ff, #4da7db);
+    box-shadow: 14px 14px 27px #489dcf, -14px -14px 27px #62d5ff;
     padding-left: 1rem;
     padding-right: 1rem;
   `;

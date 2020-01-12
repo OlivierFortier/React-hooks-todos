@@ -44,10 +44,10 @@ function App() {
   const Wrapper = styled.div`
     height: 100vh;
     width: 100vw;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    align-items:stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     background: #55b9f3;
   `;
 
@@ -57,7 +57,9 @@ function App() {
       <input ref={todoNameRef} type="text" />
       <button onClick={handleAddTodo}>Add Todo</button>
       <button onClick={handleClearTodos}>Clear Todos</button>
-      <div style={{textAlign: "center"}}>{todos.filter(todo => !todo.completed).length} left to do</div>
+      <div style={{ textAlign: "center" }}>
+        {todos.filter(todo => !todo.completed).length} left to do
+      </div>
     </Wrapper>
   );
 }

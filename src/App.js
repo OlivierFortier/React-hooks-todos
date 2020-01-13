@@ -22,10 +22,13 @@ function App() {
         "https://jsonplaceholder.typicode.com/todos?_limit=5"
       );
       const dataTodos = res.data;
-      if (dataTodos) setTodos(dataTodos);
+      const finalTodos = dataTodos.map(({id, title, completed}) => {
+        return {id , title, completed}
+      });
+      if (dataTodos) setTodos(finalTodos);
     }
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (!storedTodos) getTodos();
+    if(!storedTodos) getTodos();
   }, []);
 
   useEffect(() => {
@@ -37,7 +40,7 @@ function App() {
     const id = uuidv4();
     if (Title === "") return;
     setTodos(prevTodo => {
-      return [...prevTodo, { userId: 1 , id: id, title: Title, completed: false }];
+      return [...prevTodo, { id: id, title: Title, completed: false }];
     });
     async function postTodo() {
       try {
@@ -45,7 +48,7 @@ function App() {
           "https://jsonplaceholder.typicode.com/todos",
           { id: id, title: Title, completed: false }
         );
-        console.log(result);
+       
       } catch (err) {
         console.log(err);
       }
